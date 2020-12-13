@@ -7,8 +7,6 @@ customElements.define('home-component', Home);
 customElements.define('register-component', Register);
 customElements.define('login-component', Login);
 
-
-
 const root = document.getElementById('root');
 const router = new Router(root);
 

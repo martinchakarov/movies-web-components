@@ -1,5 +1,6 @@
 import { html, render } from 'https://unpkg.com/lit-html?module';
 import { register } from '../../services/auth.js';
+import {Router} from 'https://unpkg.com/@vaadin/router';
 
 const template = (ctx) => html`
         <form class="text-center border border-light p-5" action="#" method="post" @submit=${ctx.onSubmit}>
@@ -59,7 +60,7 @@ export default class Register extends HTMLElement {
             .then(res => {
                 if (!res.hasOwnProperty('error')) {
                 notify('User registered successfully!')
-                // TODO: redirect to home (or login?)
+                Router.go('/login');
                 } else {
                     throw new Error (res.error.message.split('_').join(' '))
                 }
