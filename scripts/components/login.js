@@ -1,8 +1,8 @@
 import { html, render } from 'https://unpkg.com/lit-html?module';
-import { register } from '../../services/auth.js';
+import { login } from '../../services/auth.js';
 
 const template = (ctx) => html`
-        <form class="text-center border border-light p-5" action="#" method="post" @submit=${ctx.onSubmit}>
+        <form class="text-center border border-light p-5" action="" method="" @submit=${ctx.onSubmit}>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" placeholder="Email" name="email" value="">
@@ -12,16 +12,11 @@ const template = (ctx) => html`
                 <input type="password" class="form-control" placeholder="Password" name="password" value="">
             </div>
         
-            <div class="form-group">
-                <label for="repeatPassword">Repeat Password</label>
-                <input type="password" class="form-control" placeholder="Repeat-Password" name="repeatPassword" value="">
-            </div>
-        
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
 `
 
-export default class Register extends HTMLElement {
+export default class Login extends HTMLElement {
     constructor() {
         super();
     }
@@ -37,35 +32,29 @@ export default class Register extends HTMLElement {
 
         let email = formData.get('email');
         let password = formData.get('password');
-        let repeatPassword = formData.get('repeatPassword');
 
         if (email === '') {
             notify('Please enter an email address!', 'error');
             return;
         }
 
-        if (password.length < 6) {
-            notify('Password too short!', 'error');
-            return;
-        }
-
-        if (password !== repeatPassword) {
-            notify('Passwords must match!', 'error');
+        if (password === '') {
+            notify('Please enter a password!', 'error');
             return;
         }
 
 
-        register(email, password)
+        login(email, password)
             .then(res => {
                 if (!res.hasOwnProperty('error')) {
-                notify('User registered successfully!')
-                // TODO: redirect to home (or login?)
+                    notify('Login successful!')
+                    // TODO: redirect to home
                 } else {
-                    throw new Error (res.error.message.split('_').join(' '))
+                    throw new Error(res.error.message.split('_').join(' '))
                 }
             })
             .catch(err => notify(err, 'error'));
-        
+
 
     }
 
@@ -73,3 +62,4 @@ export default class Register extends HTMLElement {
         render(template(this), this, { eventContext: this });
     }
 }
+

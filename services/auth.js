@@ -19,3 +19,14 @@ export const register = async (email, password) => {
 
     return res;
 }
+
+export const login = async (email, password) => {
+    let res = await request(api.login, 'POST', {
+        email,
+        password
+    });
+
+    localStorage.setItem('auth', JSON.stringify(res));
+
+    return res;
+}
