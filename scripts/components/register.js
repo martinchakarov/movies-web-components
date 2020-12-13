@@ -39,19 +39,21 @@ export default class Register extends HTMLElement {
         let repeatPassword = formData.get('repeatPassword');
 
         if (email === '') {
-            alert('Please enter an email address!');
+            notify('Please enter an email address!', 'error');
             return;
         }
 
         if (password.length < 6) {
-            alert('Password too short!');
+            notify('Password too short!', 'error');
             return;
         }
 
         if (password !== repeatPassword) {
-            alert('Passwords must match!');
+            notify('Passwords must match!', 'error');
             return;
         }
+
+        notify('User registered successfully!');
 
     }
 
