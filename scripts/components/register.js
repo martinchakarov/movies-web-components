@@ -1,4 +1,5 @@
 import { html, render } from 'https://unpkg.com/lit-html?module';
+import { register } from '../../services/auth.js';
 
 const template = (ctx) => html`
         <form class="text-center border border-light p-5" action="#" method="post" @submit=${ctx.onSubmit}>
@@ -53,7 +54,17 @@ export default class Register extends HTMLElement {
             return;
         }
 
-        notify('User registered successfully!');
+
+        register(email, password)
+            .then(res => {
+                if (!res.hasOwnProperty('error')) {
+                notify('User registered successfully!')
+                } else {
+                    throw new Error (res.error.message)
+                }
+            })
+            .catch(err => notify(err, 'error'));
+        
 
     }
 
